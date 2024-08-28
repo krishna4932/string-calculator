@@ -1,4 +1,11 @@
-# string-calculator
+# String Calculator
+
+A simple Kotlin application that provides a string calculator with various functionalities:
+
+- Sum of numbers separated by commas or new lines.
+- Custom delimiters.
+- Ignores numbers greater than 1000.
+- Throws exceptions for negative numbers.
 
 ## Requirements
 
@@ -38,4 +45,36 @@ To run the application, use:
 To run the unit tests, use:
 
 ```sh
-./grad
+./gradlew test
+```
+
+### [_Info_] 6. Project Structure
+The project structure:
+```
+string-calculator/
+│
+├── src/
+│   ├── main/
+│   │   └── kotlin/
+│   │       └── Main.kt
+│   │       └── StringCalculator.kt
+│   │           
+│   └── test/
+│       └── kotlin/
+│           └── StringCalculatorTest.kt
+│
+├── build.gradle
+├── settings.gradle
+└── README.md
+```
+
+### [_Info_] 7. Example Usage
+Here's an example of how you might use the StringCalculator class in this Kotlin application:
+
+```kotlin
+fun main() {
+    val calculator = StringCalculator()
+    println(calculator.add("1,2,3")) // Output: 6
+    println(calculator.add("1\n2,3")) // Output: 6
+}
+```
