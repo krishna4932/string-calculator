@@ -31,4 +31,9 @@ class StringCalculatorTest {
     fun `handle numbers with new lines and commas`() {
         assertEquals(6, calculator.add("1\n2,3"))
     }
+
+    @Test
+    fun `handle the sum with custom single delimiter`() {
+        assertEquals(3, calculator.add("//;\n1;2"))
+    }
 }
