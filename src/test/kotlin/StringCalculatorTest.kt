@@ -33,7 +33,7 @@ class StringCalculatorTest {
     }
 
     @Test
-    fun `handle the sum with custom single delimiter`() {
+    fun `handle the sum with custom single delimiter with single length`() {
         assertEquals(3, calculator.add("//;\n1;2"))
     }
 
@@ -48,5 +48,26 @@ class StringCalculatorTest {
             calculator.add("//[*][%]\n-1*2%3*-4")
         }
         assertEquals("negatives not allowed: -1,-4", multiNegativeException.message)
+    }
+
+    @Test
+    fun `handle the sum with custom single delimiter with any length`() {
+        assertEquals(22, calculator.add("//[***]\n1***21"))
+    }
+
+    @Test
+    fun `handle the sum with multiple custom delimiters`() {
+        assertEquals(6, calculator.add("//[*][%]\n1*2%3"))
+    }
+
+    @Test
+    fun `handle the sum with multiple custom delimiters with any length`() {
+        assertEquals(33, calculator.add("//[*][%%]\n1*2%%30"))
+    }
+
+    @Test
+    fun `handle ignoring numbers greater than 1000`() {
+        assertEquals(3, calculator.add("1,2,1001"))
+        assertEquals(3, calculator.add("//[*][%]\n1*2%1001"))
     }
 }

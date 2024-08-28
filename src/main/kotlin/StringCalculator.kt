@@ -5,8 +5,8 @@ class StringCalculator {
     fun add(numbers: String): Int {
         if (numbers.isBlank()) return 0
 
-        val (delimiter, actualNumbers) = parseDelimiter(numbers)
-        val numberList = parseNumbers(actualNumbers, delimiter)
+        val (delimiters, actualNumbers) = parseDelimiters(numbers)
+        val numberList = parseNumbers(actualNumbers, delimiters).filter { it <= 1000 }
 
         val negativeNumbers = numberList.filter { it < 0 }
         if (negativeNumbers.isNotEmpty()) {
@@ -16,22 +16,30 @@ class StringCalculator {
         return numberList.sum()
     }
 
-    private fun parseNumbers(numbers: String, delimiter: String): List<Int> {
+    private fun parseNumbers(numbers: String, delimiters: List<String>): List<Int> {
+//        println(delimiters)
+        val regex = delimiters.joinToString(separator = "|", prefix = "[", postfix = "]") {
+            Regex.escape(it)
+        }
+//        println(regex)
         return numbers
-            .split(Regex("[\n$delimiter]")) // Split by new lines or the specified delimiter
+            .split(Regex("[\n$regex]")) // Split by new lines or any of the specified delimiters
             .mapNotNull {
                 it.toIntOrNull()
             }
     }
 
-    private fun parseDelimiter(numbers: String): Pair<String, String> {
+    private fun parseDelimiters(numbers: String): Pair<List<String>, String> {
         return if (numbers.startsWith("//")) {
             val delimiterEndIndex = numbers.indexOf('\n')
-            val delimiter = numbers.substring(2, delimiterEndIndex)
+            val delimiterSection = numbers.substring(2, delimiterEndIndex)
+            val delimiters = delimiterSection
+                .trim('[').trim(']')
+                .split("][")
             val actualNumbers = numbers.substring(delimiterEndIndex + 1)
-            Pair(delimiter, actualNumbers)
+            Pair(delimiters, actualNumbers)
         } else {
-            Pair(",", numbers)
+            Pair(listOf(","), numbers)
         }
     }
 }
