@@ -36,4 +36,17 @@ class StringCalculatorTest {
     fun `handle the sum with custom single delimiter`() {
         assertEquals(3, calculator.add("//;\n1;2"))
     }
+
+    @Test
+    fun `should throw exception if negative numbers exist`() {
+        val exception = org.junit.jupiter.api.assertThrows<Exception> {
+            calculator.add("//;\n1;-2")
+        }
+        assertEquals("negatives not allowed: -2", exception.message)
+
+        val multiNegativeException = org.junit.jupiter.api.assertThrows<Exception> {
+            calculator.add("//[*][%]\n-1*2%3*-4")
+        }
+        assertEquals("negatives not allowed: -1,-4", multiNegativeException.message)
+    }
 }

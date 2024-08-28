@@ -8,6 +8,11 @@ class StringCalculator {
         val (delimiter, actualNumbers) = parseDelimiter(numbers)
         val numberList = parseNumbers(actualNumbers, delimiter)
 
+        val negativeNumbers = numberList.filter { it < 0 }
+        if (negativeNumbers.isNotEmpty()) {
+            throw Exception("negatives not allowed: ${negativeNumbers.joinToString(",")}")
+        }
+
         return numberList.sum()
     }
 
